@@ -10,6 +10,6 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       return require('./cypress/plugins/index.js')(on, config)
     },
-    baseUrl: 'https://www.saucedemo.com/',
+    baseUrl: process.env.ENV_ID || 'https://www.saucedemo.com/', 
   },
 })
