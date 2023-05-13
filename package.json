@@ -1,0 +1,19 @@
+{
+  "name": "saucedemo-cypress",
+  "version": "1.0.0",
+  "description": "Cypress running against saucedemo application",
+  "keywords": [
+    "testing",
+    "automation",
+    "cypress",
+    "saucedemo"
+  ],
+  "scripts": {
+    "test": "cypress run --browser chrome",
+    "test:stage": "cypress run --config baseUrl=http://stage.saucedemo.com/ --browser chrome",
+  },
+  "author": "Tulio Bandeira Luz",
+  "devDependencies": {
+    "cypress": "^12.12.0"
+  }
+}

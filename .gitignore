@@ -1,0 +1,6 @@
+downloads/
+node_modules/
+videos/
+screenshots/
+results/
+.DS_Store
