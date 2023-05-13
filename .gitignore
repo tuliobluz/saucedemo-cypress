@@ -4,3 +4,4 @@ videos/
 screenshots/
 results/
 .DS_Store
+mochawesome-report/

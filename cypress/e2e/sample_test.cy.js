@@ -17,27 +17,35 @@ context('Buy item', () => {
   beforeEach(() => {
     cy.visit('');
     cy.fixture(testData).then((user) => {
-      cy.get(selectors.userName).type(user.userName).get(selectors.password).type(user.password);
+      cy.get(selectors.userName)
+        .type(user.userName)
+        .get(selectors.password)
+        .type(user.password)
+        .get(selectors.loginButton)
+        .click();
     });
-    cy.get(selectors.loginButton).click();
   });
 
   it('Buys an item from the site', () => {
-    cy.getBySel(selectors.addToCart('backpack')).click();
-    cy.get(selectors.goToCart).click();
-    cy.getBySel(selectors.checkoutButton).click();
-
-    cy.fixture(testData).then((user) => {
-      cy.getBySel(selectors.firstName)
-        .type(user.firstName)
-        .getBySel(selectors.lastName)
-        .type(user.lastName)
-        .getBySel(selectors.postalCode)
-        .type(user.postalCode);
-    });
-
-    cy.getBySel(selectors.continueButton).click();
-    cy.getBySel(selectors.finishButton).click();
+    cy.getBySel(selectors.addToCart('backpack'))
+      .click()
+      .get(selectors.goToCart)
+      .click()
+      .getBySel(selectors.checkoutButton)
+      .click()
+      .fixture(testData)
+      .then((user) => {
+        cy.getBySel(selectors.firstName)
+          .type(user.firstName)
+          .getBySel(selectors.lastName)
+          .type(user.lastName)
+          .getBySel(selectors.postalCode)
+          .type(user.postalCode)
+          .getBySel(selectors.continueButton)
+          .click()
+          .getBySel(selectors.finishButton)
+          .click();
+      });
     cy.contains('Thank you for your order!').should('be.visible');
     /* 
         Another assertion will be checking the payload of the order in
