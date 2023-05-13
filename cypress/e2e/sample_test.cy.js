@@ -1,4 +1,5 @@
 context('Buy item', () => {
+  const testData = process.env.TEST_DATA_ENV || 'testDataReview.json';
   const selectors = {
     userName: '#user-name',
     password: '#password',
@@ -14,13 +15,11 @@ context('Buy item', () => {
   };
 
   beforeEach(() => {
-    cy.visit('')
-      .get(selectors.userName)
-      .type('standard_user')
-      .get(selectors.password)
-      .type('secret_sauce')
-      .get(selectors.loginButton)
-      .click();
+    cy.visit('');
+    cy.fixture(testData).then((user) => {
+      cy.get(selectors.userName).type(user.userName).get(selectors.password).type(user.password);
+    });
+    cy.get(selectors.loginButton).click();
   });
 
   it('Buys an item from the site', () => {
@@ -28,9 +27,15 @@ context('Buy item', () => {
     cy.get(selectors.goToCart).click();
     cy.getBySel(selectors.checkoutButton).click();
 
-    cy.getBySel(selectors.firstName).type('Standard');
-    cy.getBySel(selectors.lastName).type('User');
-    cy.getBySel(selectors.postalCode).type(12345);
+    cy.fixture(testData).then((user) => {
+      cy.getBySel(selectors.firstName)
+        .type(user.firstName)
+        .getBySel(selectors.lastName)
+        .type(user.lastName)
+        .getBySel(selectors.postalCode)
+        .type(user.postalCode);
+    });
+
     cy.getBySel(selectors.continueButton).click();
     cy.getBySel(selectors.finishButton).click();
     cy.contains('Thank you for your order!').should('be.visible');
