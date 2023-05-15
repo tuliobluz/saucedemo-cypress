@@ -5,7 +5,7 @@ on:
       - main
 
 jobs:
-  cypress:
+  cypress-e2e:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -19,3 +19,16 @@ jobs:
           name: mochawesome-report
           path: mochawesome-report/
           retention-days: 15
+
+  slack_success_result:
+    needs: [cypress-e2e]
+    name: Slack Notification
+    runs-on: ubuntu-latest
+    if: $${{ success() }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Send success message GitHub
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_FOOTER: failed
