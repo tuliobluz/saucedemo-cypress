@@ -1,19 +1,19 @@
 pipeline {
     agent any
 
-    tools {nodejs "Node"}
+    tools {nodejs "node"}
     environment {
       CHROME_BIN = '/bin/google-chrome'
     }
     stages {
         stage('Depedencies') {
             steps {
-                sh npm i
+                sh 'npm i'
             }
         }
         stage('Test') {
             steps {
-                sh npm run test
+                sh 'npm run test'
             }
         }
         stage('Deploy') {
